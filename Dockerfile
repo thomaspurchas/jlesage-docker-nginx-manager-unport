@@ -14,7 +14,8 @@ RUN \
     # Revert the HTTP port 80 to the unprivileged port 8080.
     sed-patch 's|8080;|80;|' /etc/nginx/conf.d/default.conf && \
     sed-patch 's|"8080";|"80";|' /etc/nginx/conf.d/default.conf && \
-    sed-patch 's|listen 8080;|listen 80;|' /opt/nginx-proxy-manager/templates/letsencrypt-request.conf && \
+    # Hack in IPv6 support for lets encrypt
+    sed-patch 's|listen 8080;|listen 80; listen [::]:80;|' /opt/nginx-proxy-manager/templates/letsencrypt-request.conf && \
     sed-patch 's|listen 8080;|listen 80;|' /opt/nginx-proxy-manager/templates/_listen.conf && \
     sed-patch 's|:8080;|:80;|' /opt/nginx-proxy-manager/templates/_listen.conf && \
     sed-patch 's|listen 8080 |listen 80 |' /opt/nginx-proxy-manager/templates/default.conf && \
