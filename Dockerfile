@@ -8,6 +8,9 @@
 FROM jlesage/nginx-proxy-manager:latest
 
 RUN \
+    # Set user to nobody. This fixes some reload issues
+    sed-patch 's|#user root;|user nobody;|' /etc/nginx/nginx.conf && \
+
     # Revert the management interface port to the unprivileged port 8181.
     sed-patch 's|8181 default|81 default|' /etc/nginx/conf.d/production.conf && \
 
